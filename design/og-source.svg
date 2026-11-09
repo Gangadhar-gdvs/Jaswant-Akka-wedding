@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="20%" r="90%">
+      <stop offset="0%" stop-color="#6E1423"/>
+      <stop offset="60%" stop-color="#4A0D18"/>
+      <stop offset="100%" stop-color="#3A0912"/>
+    </radialGradient>
+    <linearGradient id="gilt" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9B6B1E"/>
+      <stop offset="35%" stop-color="#E3C277"/>
+      <stop offset="55%" stop-color="#C79A3B"/>
+      <stop offset="75%" stop-color="#E3C277"/>
+      <stop offset="100%" stop-color="#9B6B1E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- ambient mandalas -->
+  <g fill="none" stroke="#E3C277" stroke-width="1" opacity="0.14">
+    <circle cx="1080" cy="90" r="150"/>
+    <circle cx="1080" cy="90" r="110"/>
+    <circle cx="120" cy="560" r="130"/>
+    <circle cx="120" cy="560" r="90"/>
+  </g>
+
+  <!-- gold frame -->
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#C79A3B" stroke-width="2" opacity="0.5"/>
+  <rect x="52" y="52" width="1096" height="526" fill="none" stroke="#C79A3B" stroke-width="1" opacity="0.3"/>
+
+  <text x="600" y="150" text-anchor="middle" font-family="Georgia, serif" font-size="26" letter-spacing="8" fill="#E3C277">KARE FAMILY WEDDING</text>
+
+  <text x="600" y="170" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#FBF6EC" opacity="0.75">Together with their families</text>
+
+  <text x="600" y="300" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="94" fill="url(#gilt)">K. Bhargavi</text>
+  <text x="600" y="370" text-anchor="middle" font-family="Georgia, serif" font-size="46" fill="#E3C277">&amp;</text>
+  <text x="600" y="460" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="94" fill="url(#gilt)">K. Ramesh</text>
+
+  <line x1="450" y1="510" x2="750" y2="510" stroke="#C79A3B" stroke-width="1" opacity="0.6"/>
+  <text x="600" y="548" text-anchor="middle" font-family="Georgia, serif" font-size="30" fill="#FBF6EC">Wednesday, 18 November 2026</text>
+  <text x="600" y="580" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#E3C277" opacity="0.85">Sri Amara Narayana Swamy Sannidhi · Basampalli</text>
+</svg>
