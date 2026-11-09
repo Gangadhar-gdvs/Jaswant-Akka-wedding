@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Serif+Telugu:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nav-h: 72px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-ivory text-ink font-sans antialiased;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Anchor offset so headings clear the fixed nav */
+  section[id] {
+    scroll-margin-top: var(--nav-h);
+  }
+
+  ::selection {
+    background: #c79a3b;
+    color: #fbf6ec;
+  }
+
+  /* Visible keyboard focus for all interactive elements */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid #e3c277;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .lang-te {
+    @apply font-telugu;
+    line-height: 1.7;
+  }
+  .lang-te.serif {
+    @apply font-teluguserif;
+  }
+  /* Telugu never wants wide Latin-style letter-spacing */
+  .lang-te.eyebrow,
+  .eyebrow.lang-te {
+    letter-spacing: 0.05em;
+  }
+
+  .container-luxe {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply text-[11px] sm:text-xs uppercase tracking-luxe text-gold font-medium;
+  }
+
+  .text-gilt {
+    background: linear-gradient(100deg, #9b6b1e 0%, #e3c277 35%, #c79a3b 55%, #e3c277 75%, #9b6b1e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c79a3b 20%, #c79a3b 80%, transparent);
+  }
+
+  .card-paper {
+    @apply bg-ivory/90 border border-gold/25 rounded-sm;
+    box-shadow: 0 10px 40px -24px rgba(110, 20, 35, 0.4);
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-all duration-300;
+    background: linear-gradient(120deg, #c79a3b, #e3c277);
+    color: #4a0d18;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -12px rgba(199, 154, 59, 0.6);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/50 px-6 py-3 text-sm font-medium tracking-wide text-maroon transition-all duration-300;
+  }
+  .btn-ghost:hover {
+    @apply bg-gold/10 border-gold;
+  }
+}
+
+.bg-paper {
+  background-color: #fbf6ec;
+  background-image: radial-gradient(circle at 1px 1px, rgba(199, 154, 59, 0.08) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+.bg-maroon-deep {
+  background: radial-gradient(120% 80% at 50% 0%, #6e1423 0%, #4a0d18 60%, #3a0912 100%);
+}
