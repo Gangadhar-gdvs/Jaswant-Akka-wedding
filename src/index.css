@@ -1,25 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Serif+Telugu:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Serif+Telugu:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════════════════════
+   UNIFIED SOUTH INDIAN WEDDING DESIGN TOKENS
+   ══════════════════════════════════════════════════════════════════ */
+
 :root {
-  --nav-h: 72px;
+  --nav-h: 68px;
+
+  /* ═══ THEME 1: TRADITIONAL SOUTH INDIAN (DEFAULT) ═══
+     Rich Royal Temple Maroon · Sandalwood · Temple Gold
+     Unified continuous deep velvet canvas across entire site. */
+  --site-bg: radial-gradient(130% 100% at 50% 0%, #460c16 0%, #2b060d 38%, #1a0307 75%, #0e0104 100%);
+  --site-bg-fixed: #1a0307;
+
+  --theme-accent: #D4AF37;       /* Auspicious Temple Gold */
+  --theme-accent-lt: #F3E5AB;    /* Radiant Gold Foil Highlight */
+  --theme-accent-dk: #996515;    /* Deep Gold Shadow */
+
+  --text-main: #FFF8EE;          /* Radiant Warm Ivory */
+  --text-muted: #E0CEB5;         /* Soft Sandalwood Cream */
+  --text-faint: #B39B82;         /* Gentle Warm Tone */
+
+  --theme-card-bg: rgba(46, 8, 15, 0.52);
+  --theme-card-border: rgba(212, 175, 55, 0.26);
+  --theme-card-shadow: rgba(0, 0, 0, 0.45);
+
+  --nav-bg-scrolled: rgba(26, 3, 7, 0.88);
+  --btn-pill-bg: rgba(70, 12, 22, 0.45);
+
+  --theme-gilt-start: #C59B27;
+  --theme-gilt-mid: #FCE881;
+  --theme-gilt-end: #D4AF37;
+
+  --theme-divider: #D4AF37;
+  --theme-scroll-bar: linear-gradient(90deg, #996515 0%, #D4AF37 50%, #FCE881 100%);
+  --theme-silhouette: rgba(14, 1, 4, 0.75);
 }
 
+/* ═══ THEME 2: WEDDING CARD BLUE ═══
+   Directly matching public/wedding-card.jfif
+   Divine Cyan-Azure to Deep Midnight Sapphire with Silver & Gold. */
+[data-theme="card-blue"] {
+  --site-bg: radial-gradient(130% 100% at 50% 0%, #155570 0%, #0d384c 38%, #082433 75%, #03121b 100%);
+  --site-bg-fixed: #082433;
+
+  --theme-accent: #D4AF37;       /* Gleaming Golden Ganesha */
+  --theme-accent-lt: #FFE899;    /* Bright Gold Foil */
+  --theme-accent-dk: #947118;
+
+  --text-main: #F0F8FF;          /* Pure Jasmine White */
+  --text-muted: #D1E5F2;         /* Luminous Silver Blue */
+  --text-faint: #94B6CC;         /* Soft Aquatic Mist */
+
+  --theme-card-bg: rgba(8, 36, 51, 0.55);
+  --theme-card-border: rgba(180, 225, 250, 0.24);
+  --theme-card-shadow: rgba(0, 0, 0, 0.42);
+
+  --nav-bg-scrolled: rgba(5, 22, 33, 0.90);
+  --btn-pill-bg: rgba(15, 60, 82, 0.45);
+
+  --theme-gilt-start: #C59B27;
+  --theme-gilt-mid: #FFEAA7;
+  --theme-gilt-end: #E2E8F0;
+
+  --theme-divider: #6DB3D4;
+  --theme-scroll-bar: linear-gradient(90deg, #3A9ABF 0%, #D4AF37 50%, #FFEAA7 100%);
+  --theme-silhouette: rgba(3, 18, 27, 0.78);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   BASE STYLES — Strict Mobile Responsiveness & Overflow Protection
+   ══════════════════════════════════════════════════════════════════ */
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+  }
+
   html {
     scroll-behavior: smooth;
+    background-color: var(--site-bg-fixed);
+    overflow-x: hidden !important;
+    max-width: 100vw;
+    width: 100%;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-    *,
-    *::before,
-    *::after {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
       animation-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
@@ -27,95 +99,203 @@
   }
 
   body {
-    @apply bg-ivory text-ink font-sans antialiased;
-    overflow-x: hidden;
+    @apply font-sans antialiased;
+    background: var(--site-bg);
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden !important;
+    max-width: 100vw;
+    width: 100%;
+    position: relative;
     -webkit-tap-highlight-color: transparent;
+    transition: background 0.5s ease, color 0.4s ease;
   }
 
-  /* Anchor offset so headings clear the fixed nav */
+  /* Subtly illuminated background Kolam texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(212, 175, 55, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    z-index: 0;
+  }
+
   section[id] {
     scroll-margin-top: var(--nav-h);
   }
 
   ::selection {
-    background: #c79a3b;
-    color: #fbf6ec;
+    background: var(--theme-accent);
+    color: #120104;
   }
 
-  /* Visible keyboard focus for all interactive elements */
   a:focus-visible,
   button:focus-visible {
-    outline: 2px solid #e3c277;
+    outline: 2px solid var(--theme-accent-lt);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
+  }
+
+  /* Prevent vertical clipping on headers */
+  h1, h2, h3, h4, h5, h6 {
+    overflow: visible;
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   COMPONENTS
+   ══════════════════════════════════════════════════════════════════ */
 @layer components {
-  .lang-te {
-    @apply font-telugu;
-    line-height: 1.7;
+  /* All sections inherit the single unified background and clip horizontal spill */
+  section, footer {
+    background: transparent !important;
+    position: relative;
+    z-index: 10;
+    overflow-x: clip; /* Cleanly cuts horizontal overflow on mobile while leaving vertical ascenders intact */
+    max-width: 100vw;
+    width: 100%;
   }
-  .lang-te.serif {
-    @apply font-teluguserif;
-  }
-  /* Telugu never wants wide Latin-style letter-spacing */
-  .lang-te.eyebrow,
-  .eyebrow.lang-te {
-    letter-spacing: 0.05em;
+
+  #root, main {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
   }
 
   .container-luxe {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+    @apply mx-auto w-full max-w-5xl px-4 sm:px-8;
+    max-width: 100%;
+    overflow-x: clip;
   }
 
+  /* Telugu Typography — Ample line-height for vattulu and deerghalu */
+  .lang-te {
+    @apply font-telugu;
+    line-height: 1.85 !important;
+    overflow: visible;
+  }
+  .lang-te.serif {
+    @apply font-teluguserif;
+    line-height: 1.85 !important;
+    overflow: visible;
+  }
+  .lang-te.eyebrow,
+  .eyebrow.lang-te {
+    letter-spacing: 0.08em;
+  }
+
+  /* Auspicious Eyebrow */
   .eyebrow {
-    @apply text-[11px] sm:text-xs uppercase tracking-luxe text-gold font-medium;
+    @apply text-xs uppercase tracking-luxe font-medium;
+    color: var(--theme-accent);
+    overflow: visible;
   }
 
+  /* Radiant Metallic Gold Gradient for Main Names & Headings */
   .text-gilt {
-    background: linear-gradient(100deg, #9b6b1e 0%, #e3c277 35%, #c79a3b 55%, #e3c277 75%, #9b6b1e 100%);
+    background: linear-gradient(
+      115deg,
+      var(--theme-gilt-start) 0%,
+      var(--theme-gilt-mid) 40%,
+      var(--theme-gilt-end) 70%,
+      var(--theme-gilt-mid) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    display: inline-block;
+    padding-top: 0.18em;
+    padding-bottom: 0.28em;
+    padding-left: 0.04em;
+    padding-right: 0.04em;
+    margin-top: -0.18em;
+    margin-bottom: -0.28em;
+    overflow: visible;
+    filter: drop-shadow(0 2px 10px rgba(212, 175, 55, 0.25));
   }
 
-  .divider-gold {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #c79a3b 20%, #c79a3b 80%, transparent);
-  }
-
+  /* Unified Translucent Luxury Card */
   .card-paper {
-    @apply bg-ivory/90 border border-gold/25 rounded-sm;
-    box-shadow: 0 10px 40px -24px rgba(110, 20, 35, 0.4);
+    background: var(--theme-card-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--theme-card-border);
+    border-radius: 4px;
+    box-shadow: 0 16px 40px -15px var(--theme-card-shadow);
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    overflow: visible;
+    max-width: 100%;
+  }
+  .card-paper:hover {
+    border-color: rgba(212, 175, 55, 0.45);
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6);
   }
 
+  /* Traditional Gold Button */
   .btn-gold {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-all duration-300;
-    background: linear-gradient(120deg, #c79a3b, #e3c277);
-    color: #4a0d18;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-xs sm:text-sm font-semibold tracking-wider transition-all duration-300;
+    background: linear-gradient(135deg, #ECC968 0%, #D4AF37 50%, #B88922 100%);
+    color: #1A0407;
+    box-shadow: 0 8px 24px -6px rgba(212, 175, 55, 0.5);
   }
   .btn-gold:hover {
-    filter: brightness(1.05);
+    filter: brightness(1.1);
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px -12px rgba(199, 154, 59, 0.6);
+    box-shadow: 0 12px 30px -4px rgba(212, 175, 55, 0.65);
   }
 
+  /* Ghost Button */
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-gold/50 px-6 py-3 text-sm font-medium tracking-wide text-maroon transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-xs sm:text-sm font-medium tracking-wide transition-all duration-300;
+    border-color: var(--theme-card-border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-main);
   }
   .btn-ghost:hover {
-    @apply bg-gold/10 border-gold;
+    background: rgba(212, 175, 55, 0.12);
+    border-color: var(--theme-accent);
+    color: var(--theme-accent-lt);
+  }
+
+  /* Smooth unified divider */
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--theme-divider) 30%,
+      var(--theme-divider) 70%,
+      transparent
+    );
+    opacity: 0.6;
   }
 }
 
-.bg-paper {
-  background-color: #fbf6ec;
-  background-image: radial-gradient(circle at 1px 1px, rgba(199, 154, 59, 0.08) 1px, transparent 0);
-  background-size: 22px 22px;
+/* ══════════════════════════════════════════════════════════════════
+   GLOBAL OVERRIDES (Ensures 100% unified appearance)
+   ══════════════════════════════════════════════════════════════════ */
+.bg-paper,
+.bg-ivory,
+.bg-maroon-deep,
+.bg-deep-theme {
+  background: transparent !important;
 }
 
-.bg-maroon-deep {
-  background: radial-gradient(120% 80% at 50% 0%, #6e1423 0%, #4a0d18 60%, #3a0912 100%);
+.text-maroon,
+.text-saffron {
+  color: var(--text-main) !important;
+}
+
+.text-ink {
+  color: var(--text-muted) !important;
+}
+
+/* Smooth theme transitions */
+body, [data-theme] {
+  transition: background 0.5s ease-in-out, color 0.4s ease;
 }

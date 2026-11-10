@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLang } from '../i18n.jsx';
-import { Mandala, TempleSilhouette, FloralSprig, Diya } from '../components/Motifs.jsx';
+import { GaneshaCrest, TempleSilhouette, Diya } from '../components/Motifs.jsx';
+import { SplitText } from '../components/Reveal.jsx';
 
 export function Hero() {
   const { t, isTe } = useLang();
@@ -11,99 +12,148 @@ export function Hero() {
     reduce
       ? {}
       : {
-          initial: { opacity: 0, y: 26 },
+          initial: { opacity: 0, y: 20 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.9, delay, ease },
+          transition: { duration: 0.85, delay, ease },
         };
 
   const scrollDown = () => {
-    const el = document.getElementById('couple');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('couple')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="home" className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-maroon-deep text-ivory">
-      {/* Ambient mandalas */}
-      <Mandala className="pointer-events-none absolute -right-24 -top-16 h-72 w-72 text-gold/15 sm:h-96 sm:w-96" spin={!reduce} />
-      <Mandala className="pointer-events-none absolute -left-28 bottom-24 h-64 w-64 text-gold/10" />
+    <section
+      id="home"
+      className="relative flex min-h-[100svh] w-full max-w-full flex-col items-center justify-center overflow-hidden text-ivory"
+    >
+      {/* ── Main Hero Content ── */}
+      <div className="container-luxe relative z-10 flex flex-col items-center py-20 sm:py-28 text-center overflow-visible">
+        {/* Sacred Ganesha Crest (Matches public/wedding-card.jfif) */}
+        <motion.div {...rise(0.08)} className="mb-3.5 sm:mb-4">
+          <GaneshaCrest className="h-20 w-20 sm:h-28 sm:w-28" />
+        </motion.div>
 
-      {/* Temple skyline */}
-      <TempleSilhouette className="pointer-events-none absolute inset-x-0 bottom-0 h-24 w-full text-maroondark/70 sm:h-36" />
-
-      {/* Vignette */}
-      <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(60% 50% at 50% 42%, transparent, rgba(58,9,18,0.55))' }} />
-
-      <div className="container-luxe relative z-10 flex flex-col items-center py-24 text-center">
-        <motion.div {...rise(0.1)}>
-          <div className="mb-6 flex items-center justify-center gap-3">
-            <Diya className="h-8 w-8" />
-            <p className={`eyebrow text-goldlight ${isTe ? 'lang-te tracking-normal text-sm' : ''}`}>{t.hero.family}</p>
-            <Diya className="h-8 w-8" />
+        {/* Auspicious Invocation / Family Banner */}
+        <motion.div {...rise(0.18)}>
+          <div className="mb-2.5 sm:mb-3 flex items-center justify-center gap-2.5 sm:gap-3">
+            <Diya className="h-5 w-5 sm:h-6 sm:w-6" flickerClass="animate-flicker" />
+            <p className={`eyebrow text-[11px] sm:text-xs ${isTe ? 'lang-te tracking-normal text-xs sm:text-sm' : ''}`}>
+              {t.hero.family}
+            </p>
+            <Diya className="h-5 w-5 sm:h-6 sm:w-6" flickerClass="animate-flicker2" />
           </div>
         </motion.div>
 
-        <motion.p {...rise(0.25)} className={`text-sm text-ivory/70 ${isTe ? 'lang-te' : 'tracking-wide'}`}>
+        {/* Invite Line */}
+        <motion.p
+          {...rise(0.28)}
+          className={`text-xs sm:text-sm text-ivory/75 ${isTe ? 'lang-te' : 'tracking-wide'}`}
+        >
           {t.hero.invite}
         </motion.p>
 
-        {/* Names — single semantic heading */}
-        <h1 className="mt-4 flex flex-col items-center">
-          <motion.span
-            {...rise(0.4)}
-            className={`text-gilt block text-5xl leading-tight sm:text-7xl md:text-8xl ${isTe ? 'lang-te serif' : 'font-serif italic'}`}
+        {/* Couple Names — Radiant Gold Calligraphy */}
+        <h1 className="mt-3.5 sm:mt-4 flex flex-col items-center overflow-visible py-1">
+          <SplitText
+            className={`text-gilt text-3xl sm:text-6xl md:text-7xl overflow-visible ${
+              isTe ? 'lang-te serif py-1.5 leading-relaxed' : 'font-serif italic py-1 leading-normal'
+            }`}
+            delay={0.4}
+            stagger={0.06}
           >
             {t.hero.bride}
-          </motion.span>
-          <motion.span {...rise(0.55)} className="my-2 flex items-center gap-4 sm:my-3" aria-hidden="true">
-            <span className="h-px w-10 bg-gold/50 sm:w-16" />
-            <span className="font-serif text-2xl text-goldlight sm:text-3xl">{t.hero.and}</span>
-            <span className="h-px w-10 bg-gold/50 sm:w-16" />
-          </motion.span>
-          <motion.span
+          </SplitText>
+
+          {/* & Divider */}
+          <motion.div
             {...rise(0.7)}
-            className={`text-gilt block text-5xl leading-tight sm:text-7xl md:text-8xl ${isTe ? 'lang-te serif' : 'font-serif italic'}`}
+            className="my-1.5 flex items-center gap-3 sm:my-3 sm:gap-4"
+            aria-hidden="true"
+          >
+            <span
+              className="h-px w-8 sm:w-16"
+              style={{ background: 'var(--theme-accent)', opacity: 0.5 }}
+            />
+            <span
+              className="font-serif text-xl sm:text-3xl text-ivory/90"
+              style={{ color: 'var(--theme-accent-lt)' }}
+            >
+              {t.hero.and}
+            </span>
+            <span
+              className="h-px w-8 sm:w-16"
+              style={{ background: 'var(--theme-accent)', opacity: 0.5 }}
+            />
+          </motion.div>
+
+          <SplitText
+            className={`text-gilt text-3xl sm:text-6xl md:text-7xl overflow-visible ${
+              isTe ? 'lang-te serif py-1.5 leading-relaxed' : 'font-serif italic py-1 leading-normal'
+            }`}
+            delay={0.8}
+            stagger={0.06}
           >
             {t.hero.groom}
-          </motion.span>
+          </SplitText>
         </h1>
 
-        <motion.div {...rise(0.9)} className="mt-8">
-          <FloralSprig className="mx-auto h-6 w-28 text-gold" />
-        </motion.div>
-
-        <motion.p {...rise(1.0)} className={`mt-6 max-w-md text-ivory/80 ${isTe ? 'lang-te' : ''}`}>
+        {/* Request Line */}
+        <motion.p
+          {...rise(1.15)}
+          className={`mt-4 sm:mt-6 max-w-md text-xs sm:text-base text-ivory/80 ${isTe ? 'lang-te' : ''}`}
+        >
           {t.hero.line}
         </motion.p>
 
-        <motion.div {...rise(1.15)} className="mt-8 flex flex-col items-center gap-1">
-          <p className={`font-serif text-lg text-goldlight sm:text-xl ${isTe ? 'lang-te serif' : ''}`}>{t.hero.date}</p>
-          <p className={`text-sm text-ivory/70 ${isTe ? 'lang-te' : ''}`}>{t.hero.place}</p>
+        {/* Sacred Muhurtham Date & Temple Venue */}
+        <motion.div {...rise(1.3)} className="mt-4 sm:mt-5 flex flex-col items-center gap-1 overflow-visible">
+          <p
+            className={`font-serif text-base sm:text-xl py-0.5 ${isTe ? 'lang-te serif' : 'italic'}`}
+            style={{ color: 'var(--theme-accent-lt)' }}
+          >
+            {t.hero.date}
+          </p>
+          <p className={`text-xs sm:text-sm text-ivory/70 px-4 ${isTe ? 'lang-te' : ''}`}>
+            {t.hero.place}
+          </p>
         </motion.div>
 
+        {/* CTA Button */}
         <motion.button
-          {...rise(1.3)}
+          {...rise(1.45)}
           onClick={scrollDown}
-          className="btn-gold mt-9"
+          className="btn-gold mt-6 sm:mt-8"
         >
           {t.hero.cta}
         </motion.button>
       </div>
 
-      {/* Scroll indicator */}
+      {/* ── Temple Silhouette at Bottom ── */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 w-full overflow-hidden">
+        <TempleSilhouette
+          className="h-16 w-full sm:h-28"
+          style={{ color: 'var(--theme-silhouette)' }}
+        />
+      </div>
+
+      {/* ── Scroll Down Indicator ── */}
       {!reduce && (
         <motion.button
           onClick={scrollDown}
-          className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-ivory/70"
+          className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1.5 text-ivory/60 transition-opacity hover:opacity-100"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.8 }}
+          transition={{ delay: 1.8, duration: 0.8 }}
           aria-label={t.hero.scroll}
         >
-          <span className={`text-[10px] uppercase tracking-[0.3em] ${isTe ? 'lang-te tracking-normal' : ''}`}>{t.hero.scroll}</span>
+          <span className={`text-[9px] sm:text-[10px] uppercase ${isTe ? 'lang-te tracking-normal' : 'tracking-[0.25em]'}`}>
+            {t.hero.scroll}
+          </span>
           <motion.span
-            className="block h-8 w-px bg-gradient-to-b from-gold to-transparent"
-            animate={{ scaleY: [0.4, 1, 0.4], originY: 0 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="block h-6 sm:h-7 w-px"
+            style={{ background: 'linear-gradient(to bottom, var(--theme-accent), transparent)' }}
+            animate={{ scaleY: [0.3, 1, 0.3], originY: 0 }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
           />
         </motion.button>
       )}

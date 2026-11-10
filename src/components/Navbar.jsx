@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion, useScroll } from 'framer-motion';
 import { useLang } from '../i18n.jsx';
-
-const LINKS = ['couple', 'invitation', 'events', 'countdown', 'family', 'venue', 'contact'];
+import { useTheme } from '../theme.jsx';
 
 export function Navbar() {
   const { t, isTe, toggle } = useLang();
-  const [open, setOpen] = useState(false);
+  const { isTraditional, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -16,120 +16,104 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
-    if (open) window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const go = (id) => (e) => {
+  const scrollToTop = (e) => {
     e.preventDefault();
-    setOpen(false);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-ivory/90 backdrop-blur-sm shadow-[0_4px_20px_-12px_rgba(110,20,35,0.5)]' : 'bg-transparent'
-      }`}
-      style={{ height: 'var(--nav-h)' }}
-    >
-      <nav className="container-luxe flex h-full items-center justify-between">
-        <a
-          href="#home"
-          onClick={go('home')}
-          className={`font-serif text-lg sm:text-xl ${scrolled ? 'text-maroon' : 'text-ivory'} transition-colors`}
-        >
-          <span className="italic">B</span>
-          <span className="text-gold"> ❖ </span>
-          <span className="italic">R</span>
-        </a>
+    <>
+      {/* ── Scroll progress indicator line at top ── */}
+      <motion.div
+        style={{
+          scaleX: scrollYProgress,
+          transformOrigin: '0%',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '2px',
+          background: 'var(--theme-scroll-bar)',
+          zIndex: 60,
+          pointerEvents: 'none',
+        }}
+      />
 
-        <ul className="hidden items-center gap-6 lg:flex">
-          {LINKS.map((key) => (
-            <li key={key}>
-              <a
-                href={`#${key}`}
-                onClick={go(key)}
-                className={`text-xs uppercase tracking-[0.18em] transition-colors hover:text-gold ${
-                  scrolled ? 'text-ink/80' : 'text-ivory/90'
-                } ${isTe ? 'lang-te tracking-normal text-sm' : ''}`}
-              >
-                {t.nav[key]}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggle}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-all hover:bg-gold hover:text-maroondark ${
-              scrolled ? 'border-gold/50 text-maroon' : 'border-ivory/40 text-ivory'
-            } ${isTe ? '' : 'lang-te'}`}
-            aria-label="Switch language"
+      {/* ── Minimal Floating Header (Fully Responsive on all screens) ── */}
+      <header
+        className={`fixed inset-x-0 top-0 z-50 w-full max-w-full transition-all duration-500 ${
+          scrolled
+            ? 'backdrop-blur-md shadow-[0_4px_24px_-10px_rgba(0,0,0,0.5)]'
+            : 'bg-transparent'
+        }`}
+        style={{
+          height: 'var(--nav-h)',
+          backgroundColor: scrolled ? 'var(--nav-bg-scrolled)' : 'transparent',
+          borderBottom: scrolled ? '1px solid var(--theme-card-border)' : '1px solid transparent',
+        }}
+      >
+        <div className="container-luxe flex h-full items-center justify-between">
+          {/* Couple Monogram */}
+          <a
+            href="#home"
+            onClick={scrollToTop}
+            className="group flex items-center gap-1.5 font-serif text-base sm:text-xl tracking-wider text-ivory transition-transform hover:scale-105"
+            aria-label="Back to top"
           >
-            {t.langLabel}
-          </button>
+            <span className="italic">B</span>
+            <span style={{ color: 'var(--theme-accent)' }}>❖</span>
+            <span className="italic">R</span>
+          </a>
 
-          <button
-            onClick={() => setOpen((o) => !o)}
-            className={`lg:hidden rounded-full p-2 ${scrolled ? 'text-maroon' : 'text-ivory'}`}
-            aria-label="Menu"
-            aria-expanded={open}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-              {open ? (
-                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+          {/* Essential Controls Only: Language & Theme */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Language Switch */}
+            <button
+              onClick={toggle}
+              className="rounded-full border px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-medium text-ivory shadow-sm transition-all duration-300 hover:scale-105"
+              style={{
+                borderColor: 'var(--theme-card-border)',
+                background: 'var(--btn-pill-bg)',
+              }}
+              aria-label="Switch language"
+            >
+              <span className={isTe ? '' : 'lang-te'}>{t.langLabel}</span>
+            </button>
+
+            {/* Theme Switch */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-1 rounded-full border px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-medium text-ivory shadow-sm transition-all duration-300 hover:scale-105"
+              style={{
+                borderColor: 'var(--theme-card-border)',
+                background: 'var(--btn-pill-bg)',
+              }}
+              aria-label={
+                isTraditional
+                  ? 'Switch to Wedding Card Theme'
+                  : 'Switch to Traditional Theme'
+              }
+              title={
+                isTraditional
+                  ? 'Switch to Wedding Card Theme'
+                  : 'Switch to Traditional Theme'
+              }
+            >
+              {isTraditional ? (
+                <>
+                  <span className="text-xs sm:text-sm">🪔</span>
+                  <span className="hidden sm:inline">Traditional</span>
+                </>
               ) : (
                 <>
-                  <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
+                  <span className="text-xs sm:text-sm">🦚</span>
+                  <span className="hidden sm:inline">Card Blue</span>
                 </>
               )}
-            </svg>
-          </button>
+            </button>
+          </div>
         </div>
-      </nav>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="lg:hidden fixed inset-0 top-[var(--nav-h)] z-40 bg-maroon-deep"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ul className="flex flex-col items-center gap-1 px-6 py-8">
-              {LINKS.map((key, i) => (
-                <motion.li
-                  key={key}
-                  className="w-full text-center"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + i * 0.05 }}
-                >
-                  <a
-                    href={`#${key}`}
-                    onClick={go(key)}
-                    className={`block border-b border-gold/15 py-4 font-serif text-2xl text-ivory ${
-                      isTe ? 'lang-te serif' : 'italic'
-                    }`}
-                  >
-                    {t.nav[key]}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+      </header>
+    </>
   );
 }

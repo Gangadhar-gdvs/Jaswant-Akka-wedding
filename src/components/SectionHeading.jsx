@@ -1,28 +1,46 @@
 import { useLang } from '../i18n.jsx';
 import { Reveal } from './Reveal.jsx';
-import { FloralSprig } from './Motifs.jsx';
+import { KolamBorder } from './Motifs.jsx';
 
-export function SectionHeading({ eyebrow, title, light = false }) {
+export function SectionHeading({ eyebrow, title }) {
   const { isTe } = useLang();
+
   return (
-    <div className="text-center">
+    <div className="text-center overflow-visible">
       <Reveal>
-        <p className={`eyebrow ${light ? 'text-goldlight' : ''} ${isTe ? 'lang-te' : ''}`}>{eyebrow}</p>
+        <p className={`eyebrow ${isTe ? 'lang-te' : ''}`}>
+          {eyebrow}
+        </p>
       </Reveal>
+
       <Reveal delay={0.08}>
-        <h2
-          className={`mt-3 font-serif text-3xl sm:text-4xl md:text-5xl ${
-            light ? 'text-ivory' : 'text-maroon'
-          } ${isTe ? 'lang-te serif' : 'italic'}`}
-        >
-          {title}
-        </h2>
+        <div className="overflow-visible py-1">
+          <h2
+            className={`mt-1.5 font-serif text-3xl sm:text-4xl md:text-5xl text-ivory overflow-visible ${
+              isTe ? 'lang-te serif py-2 leading-relaxed' : 'italic py-1 leading-normal'
+            }`}
+            style={{ textShadow: '0 2px 14px rgba(0,0,0,0.35)' }}
+          >
+            {title}
+          </h2>
+        </div>
       </Reveal>
+
+      {/* Auspicious Kolam divider */}
       <Reveal delay={0.16}>
-        <div className="mt-5 flex items-center justify-center gap-3">
-          <span className={`h-px w-10 ${light ? 'bg-goldlight/60' : 'bg-gold/50'}`} />
-          <FloralSprig className={`h-5 w-16 ${light ? 'text-goldlight' : 'text-gold'}`} />
-          <span className={`h-px w-10 ${light ? 'bg-goldlight/60' : 'bg-gold/50'}`} />
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <span
+            className="h-px w-10 sm:w-16"
+            style={{ background: 'linear-gradient(90deg, transparent, var(--theme-accent))', opacity: 0.6 }}
+          />
+          <KolamBorder
+            className="h-4 w-44 sm:w-56"
+            stroke="var(--theme-accent)"
+          />
+          <span
+            className="h-px w-10 sm:w-16"
+            style={{ background: 'linear-gradient(90deg, var(--theme-accent), transparent)', opacity: 0.6 }}
+          />
         </div>
       </Reveal>
     </div>

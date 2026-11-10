@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { LangProvider, useLang } from './i18n.jsx';
+import { ThemeProvider } from './theme.jsx';
 import { Navbar } from './components/Navbar.jsx';
 import { Hero } from './sections/Hero.jsx';
 import { Couple } from './sections/Couple.jsx';
@@ -11,30 +12,31 @@ import { Family } from './sections/Family.jsx';
 import { Venue } from './sections/Venue.jsx';
 import { Contact } from './sections/Contact.jsx';
 import { Closing } from './sections/Closing.jsx';
-import { Mandala } from './components/Motifs.jsx';
+import { LotusMedallion } from './components/Motifs.jsx';
 
 function Loader({ onDone }) {
   const reduce = useReducedMotion();
   const { t, isTe } = useLang();
   useEffect(() => {
-    const id = setTimeout(onDone, reduce ? 200 : 1500);
+    const id = setTimeout(onDone, reduce ? 200 : 1200);
     return () => clearTimeout(id);
   }, [onDone, reduce]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-maroon-deep"
+      className="fixed inset-0 z-[100] flex items-center justify-center"
+      style={{ background: 'var(--site-bg)' }}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.5 }}
     >
       <div className="flex flex-col items-center">
-        <Mandala className="h-24 w-24 text-gold/70" spin={!reduce} />
+        <LotusMedallion className="h-20 w-20 text-gold/80" stroke="var(--theme-accent)" spin={!reduce} />
         <motion.p
-          className={`text-gilt mt-6 text-xl ${isTe ? 'lang-te serif' : 'font-serif italic'}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
+          className={`text-gilt mt-5 text-xl ${isTe ? 'lang-te serif' : 'font-serif italic'}`}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.5 }}
         >
           {t.closing.names}
         </motion.p>
@@ -51,6 +53,7 @@ function Site() {
     <AnimatePresence mode="wait">
       <motion.div
         key={lang}
+        className="w-full max-w-full overflow-x-hidden"
         initial={reduce ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={reduce ? undefined : { opacity: 0 }}
@@ -76,7 +79,7 @@ function AppInner() {
     <>
       <AnimatePresence>{loading && <Loader onDone={() => setLoading(false)} />}</AnimatePresence>
       <Navbar />
-      <main>
+      <main className="relative z-10 w-full max-w-full overflow-x-hidden">
         <Site />
       </main>
     </>
@@ -85,8 +88,10 @@ function AppInner() {
 
 export default function App() {
   return (
-    <LangProvider>
-      <AppInner />
-    </LangProvider>
+    <ThemeProvider>
+      <LangProvider>
+        <AppInner />
+      </LangProvider>
+    </ThemeProvider>
   );
 }
