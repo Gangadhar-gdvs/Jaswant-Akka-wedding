@@ -244,11 +244,8 @@ export const content = {
 // Shared (language-neutral) data
 export const PHONE_NUMBERS = ['9502560551', '9908554814', '9701770997', '7075086098'];
 
-// Venue map search query (no fabricated coordinates)
-export const MAP_QUERY = encodeURIComponent(
-  'Sri Amara Narayana Swamy Temple, Basampalli, Chennekothapalli Mandal, Sri Sathya Sai District, Andhra Pradesh'
-);
-export const MAP_URL = `https://www.google.com/maps/search/?api=1&query=${MAP_QUERY}`;
+// Venue Google Maps link
+export const MAP_URL = 'https://maps.app.goo.gl/2VhpUvV3niUJFvBT6';
 
 // "Add to Google Calendar" for the wedding muhurtham (18 Nov 2026, 9:00–10:00 AM IST).
 // Times in UTC: 03:30–04:30Z. Venue appended as location.
